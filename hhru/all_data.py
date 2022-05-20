@@ -27,10 +27,11 @@ def request_get(url, params):
     return result
 
 
-def get_requirement_str(url_vacancies, params):
+def get_requirement_str(url_vacancies, params, iteration):
     result = request_get(url_vacancies, params)
     j_result = result.json()
-    # data_save_json(j_result, 'rez_01.json')
+    file_name = f'rez_{iteration}.json'
+    data_save_json(j_result, file_name)
     # print(result.status_code)
     # pprint.pprint(j_result)
     s_requirement = ''
@@ -38,7 +39,7 @@ def get_requirement_str(url_vacancies, params):
         # pprint.pprint(f'item={item}')
         snippet = item['snippet']
         # pprint.pprint(f'snippet={snippet}')
-        requirement = snippet['requirement']
+        requirement = str(snippet['requirement'])
         s_requirement += requirement + '\n'
         # pprint.pprint(f'requirement={requirement}')
     return s_requirement
@@ -56,6 +57,8 @@ def str_cliner(s_requirement):
     s_requirement = s_requirement.replace('Spring MVC', 'Spring_MVC')
     s_requirement = s_requirement.replace('Spring Data JPA', 'Spring_Data_JPA')
     s_requirement = s_requirement.replace('Spring Security', 'Spring_Security')
+    s_requirement = s_requirement.replace('REST Web API', 'REST_Web_API')
+    s_requirement = s_requirement.replace('Django ORM', 'Django_ORM')
     return s_requirement
 
 
@@ -111,12 +114,15 @@ page = 1
 
 # keywords = 'NAME:(Python) and (AI OR ML OR Keras OR Numpy OR Pandas)'
 keywords_l = ['NAME:(Python) and (AI OR ML)',
-              'NAME:(Python OR Java) AND COMPANY_NAME:(1 OR 2 OR YANDEX) AND (DJANGO OR SPRING)']
+              'NAME:(Python OR Java) AND COMPANY_NAME:(1 OR 2 OR YANDEX) AND (DJANGO OR SPRING)',
+              'NAME:(Python)']
 rez_data = []
 i = 1
+iteration = 1
 for keywords in keywords_l:
     params = get_params(keywords, page)
-    s_requirement = get_requirement_str(url_vacancies, params)
+    s_requirement = get_requirement_str(url_vacancies, params, iteration)
+    iteration+=1
     s_requirement = str_cliner(s_requirement)
     file_name=f'requirements_{i}.txt'
     data_save_txt(s_requirement, file_name)
