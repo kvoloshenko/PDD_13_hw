@@ -39,7 +39,7 @@ def get_requirement_str(url_vacancies, params, iteration):
         # pprint.pprint(f'item={item}')
         snippet = item['snippet']
         # pprint.pprint(f'snippet={snippet}')
-        requirement = snippet['requirement']
+        requirement = str(snippet['requirement'])
         s_requirement += requirement + '\n'
         # pprint.pprint(f'requirement={requirement}')
     return s_requirement
@@ -57,6 +57,8 @@ def str_cliner(s_requirement):
     s_requirement = s_requirement.replace('Spring MVC', 'Spring_MVC')
     s_requirement = s_requirement.replace('Spring Data JPA', 'Spring_Data_JPA')
     s_requirement = s_requirement.replace('Spring Security', 'Spring_Security')
+    s_requirement = s_requirement.replace('REST Web API', 'REST_Web_API')
+    s_requirement = s_requirement.replace('Django ORM', 'Django_ORM')
     return s_requirement
 
 
